@@ -13,12 +13,15 @@
                 <a href="{{ route('auth_logout') }}" class="btn btn-light shadow-sm fw-600">Se déconnecter</a>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid align-items-center d-flex flex-column">
             <div class="d-flex">
                 <p class="fs-5 py-2">Bienvenue sur <b class="text-danger fw-600">TEST</b>, notre application de gestion bancaire</p>
             </div>
-            <div class="row justify-content-start py-3">
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center py-3">
                 <form class="col-xl-5 col-lg-6" id="updateSoldeForm">
+                    <input type="hidden" name="_user" value="{{Auth::user()->id}}">
                     <h4 class="fw-600">Gestion des Comptes</h4>
                     <p class="fw-500">Définir le solde d'un compte</p>
                     <div class="pb-4">
@@ -65,19 +68,57 @@
                             Enregistrer</button>
                     </div>
                 </form>
+                <div class="col-xl-5 col-lg-6">
+                    <table class="table">
+                        <thead>
+                            <th>Id</th>
+                            <th>Libellé Compte</th>
+                            <th>Solde</th>
+                            <th>Client</th>
+                            <th>Banque</th>
+                        </thead>
+                        <tbody id="compteTableBody">
+                            @foreach ($comptes as $c)
+                                <tr>
+                                    <td><span class="d-block text-center" >{{ $c->id }}</span></td>
+                                    <td>{{ $c->libelle }}</td>
+                                    <td>{{ $c->solde }}</td>
+                                    <td>{{ $c->client->nom }}</td>
+                                    <td>{{ $c->banque->nom }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <p class="fs-5 py-2">Listing des transactions sur TEST</p>
+            </div>
+            <div class="row">
+                <div class="">
+                    <button class="btn btn-outline-dark fw-600 border-2" id="showTransBtn">Get Transactions</button>
+                </div>
             </div>
         </div>
         <div class="modal fade" id="dataTable" aria-hidden="true" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalToggleLabel2">DataTable</h5>
+                  <h5 class="modal-title" id="exampleModalToggleLabel2">Transactions</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+                <div class="modal-body" style="overflow: auto; height: 500px">
+                    <table class="table">
+                        <thead>
+                            <th>Libellé</th>
+                            <th>URL</th>
+                            <th>Date/Heure</th>
+                        </thead>
+                        <tbody id="transTableBody">
+                        </tbody>
+                    </table>
                 </div>
               </div>
             </div>

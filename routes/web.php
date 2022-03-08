@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompteController;
+use App\Http\Controllers\TransactionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +15,9 @@ use App\Http\Controllers\CompteController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -33,3 +34,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth_regist
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth_logout');
 
 Route::get('/',[CompteController::class, 'home'] )->middleware('auth')->name('home_page');
+
+Route::get('/transactions',[TransactionController::class, 'listTransactions'] )->middleware('auth')->name('transaction_history');
